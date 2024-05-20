@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Builder
@@ -19,9 +20,9 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 464138816785923116L;
+    private static final long serialVersionUID = 3709982515321769595L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     private String fullName;
@@ -32,8 +33,4 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private UserTypeEnum userType;
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
-//    private Wallet wallet;
 }

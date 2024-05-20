@@ -1,5 +1,6 @@
 package com.example.servicoderemessauser.service;
 
+import com.example.servicoderemessauser.messaging.UserEventPublisher;
 import com.example.servicoderemessauser.model.User;
 import com.example.servicoderemessauser.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private UserEventProducer userEventProducer;
+    private UserEventPublisher userEventPublisher;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -53,10 +54,14 @@ public class UserServiceTest {
         // Mock behavior for passwordEncoder
         Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
 
-        // Mock behavior for userEventProducer
-        Mockito.doNothing().when(userEventProducer).sendUserEvent(Mockito.anyString());
-
+        // Call the actual method being tested
         User createdUser = userService.createUser(user);
+
+        // Verify that userRepository.save was called with the correct user object
+        Mockito.verify(userRepository).save(Mockito.any(User.class));
+
+        // Verify that userEventPublisher.sendUserCreatedEvent was called with the correct user object
+        Mockito.verify(userEventPublisher).sendUserCreatedEvent(Mockito.any(User.class));
 
         assertNotNull(createdUser);
         assertEquals(userId, createdUser.getId());

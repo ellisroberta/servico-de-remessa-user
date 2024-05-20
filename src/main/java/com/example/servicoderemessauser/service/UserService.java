@@ -1,14 +1,16 @@
 package com.example.servicoderemessauser.service;
 
+import com.example.servicoderemessauser.messaging.UserEventPublisher;
+import com.example.servicoderemessauser.model.User;
+import com.example.servicoderemessauser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.servicoderemessauser.repository.UserRepository;
-import com.example.servicoderemessauser.service.UserEventProducer;
-import com.example.servicoderemessauser.model.User;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,7 +20,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserEventProducer userEventProducer;
+    private UserEventPublisher userEventPublisher;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,6 +30,33 @@ public class UserService {
         return new BCryptPasswordEncoder();
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> findById(UUID id) {
+        return userRepository.findById(id);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteById(UUID id) {
+        userRepository.deleteById(id);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email));
+    }
+
+    public Optional<User> findByCpf(String cpf) {
+        return Optional.ofNullable(userRepository.findByCpf(cpf));
+    }
+
+    public Optional<User> findByCnpj(String cnpj) {
+        return Optional.ofNullable(userRepository.findByCnpj(cnpj));
+    }
     public User getUserById(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
@@ -52,7 +81,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Envia evento para o RabbitMQ
-        userEventProducer.sendUserEvent("Novo usuário criado: " + user.getFullName());
+        userEventPublisher.sendUserCreatedEvent(user);
 
         // Salva o usuário no banco de dados
         return userRepository.save(user);
