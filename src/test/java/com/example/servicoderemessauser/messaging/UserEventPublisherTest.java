@@ -1,4 +1,4 @@
-package com.example.servicoderemessauser.service;
+package com.example.servicoderemessauser.messaging;
 
 import com.example.servicoderemessauser.messaging.UserEventPublisher;
 import com.example.servicoderemessauser.model.User;
