@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.desafioservicoderemessa.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.servicoderemessauser.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API de Serviço de Remessa")
-                .description("Documentação da API de Serviço de Remessa para transações entre carteiras.")
+                .title("API de Serviço de Remessa - User Management")
+                .description("Documentação da API de Serviço de Remessa para gerenciamento de usuários.")
                 .version("1.0")
                 .build();
     }

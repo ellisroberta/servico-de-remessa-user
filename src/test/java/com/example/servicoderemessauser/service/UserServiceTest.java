@@ -1,9 +1,15 @@
 package com.example.servicoderemessauser.service;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+import com.example.servicoderemessauser.fixture.BaseFixture;
+import com.example.servicoderemessauser.fixture.model.UserFixture;
 import com.example.servicoderemessauser.messaging.UserEventPublisher;
 import com.example.servicoderemessauser.model.User;
 import com.example.servicoderemessauser.repository.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,42 +41,38 @@ public class UserServiceTest {
     private UUID userId;
     private User user;
 
+    @BeforeAll
+    public static void setUpFixture() {
+        FixtureFactoryLoader.loadTemplates(BaseFixture.ALL.getPacote());
+    }
+
     @BeforeEach
     public void setUp() {
         userId = UUID.randomUUID();
-        user = new User();
+        user = Fixture.from(User.class).gimme(UserFixture.VALIDO);
         user.setId(userId);
-        user.setFullName("John Doe");
-        user.setEmail("john.doe@example.com");
-        user.setPassword("password123");
-        // Configure other fields as needed
     }
 
     @Test
+    @DisplayName("Deve criar um usuário com sucesso")
     public void testCreateUser_Success() {
-        // Mock behavior for userRepository.save
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
-
-        // Mock behavior for passwordEncoder
         Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
 
-        // Call the actual method being tested
         User createdUser = userService.createUser(user);
 
-        // Verify that userRepository.save was called with the correct user object
         Mockito.verify(userRepository).save(Mockito.any(User.class));
-
-        // Verify that userEventPublisher.sendUserCreatedEvent was called with the correct user object
-        Mockito.verify(userEventPublisher).sendUserCreatedEvent(Mockito.any(User.class));
+        Mockito.verify(userEventPublisher).publishUserCreatedEvent(Mockito.any(User.class));
 
         assertNotNull(createdUser);
         assertEquals(userId, createdUser.getId());
-        assertEquals("John Doe", createdUser.getFullName());
-        assertEquals("john.doe@example.com", createdUser.getEmail());
+        assertEquals(user.getFullName(), createdUser.getFullName());
+        assertEquals(user.getEmail(), createdUser.getEmail());
         assertEquals("encodedPassword", createdUser.getPassword());
     }
 
     @Test
+    @DisplayName("Deve encontrar um usuário pelo ID com sucesso")
     public void testFindUserById_Success() {
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -78,28 +80,25 @@ public class UserServiceTest {
 
         assertTrue(foundUser.isPresent());
         assertEquals(userId, foundUser.get().getId());
-        assertEquals("John Doe", foundUser.get().getFullName());
+        assertEquals(user.getFullName(), foundUser.get().getFullName());
     }
 
     @Test
+    @DisplayName("Deve lançar exceção quando não encontrar usuário pelo ID")
     public void testFindUserById_UserNotFound() {
-        // Mock do userRepository para retornar Optional.empty() quando findById for chamado
         Mockito.when(userRepository.findById(Mockito.any(UUID.class))).thenReturn(Optional.empty());
 
-        // Tentativa de buscar um usuário com um UUID aleatório
         UUID nonExistingUserId = UUID.randomUUID();
 
-        // Captura da exceção IllegalArgumentException
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.getUserById(nonExistingUserId);
         });
 
-        // Verifica a mensagem da exceção
         assertEquals("User not found with id: " + nonExistingUserId, exception.getMessage());
     }
 
-
     @Test
+    @DisplayName("Deve atualizar um usuário com sucesso")
     public void testUpdateUser_Success() {
         User updatedUser = new User();
         updatedUser.setFullName("Jane Doe");
@@ -118,6 +117,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Deve lançar exceção quando tentar atualizar usuário não encontrado")
     public void testUpdateUser_UserNotFound() {
         User updatedUser = new User();
         updatedUser.setFullName("Jane Doe");

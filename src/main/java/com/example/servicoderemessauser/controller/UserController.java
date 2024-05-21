@@ -1,7 +1,7 @@
 package com.example.servicoderemessauser.controller;
 
 import com.example.servicoderemessauser.messaging.TransactionMessage;
-import com.example.servicoderemessauser.messaging.TransactionRequest;
+import com.example.servicoderemessauser.dto.TransactionRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -16,12 +16,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
-@Api(tags = "Usuários", description = "Endpoints para operações relacionadas aos usuários")
+@Api(tags = "Usuários")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private RabbitSender rabbitSender;
+    private final RabbitSender rabbitSender;
 
     public UserController(UserService userService, RabbitSender rabbitSender) {
         this.userService = userService;

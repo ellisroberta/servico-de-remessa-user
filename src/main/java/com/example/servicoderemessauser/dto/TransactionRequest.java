@@ -1,4 +1,4 @@
-package com.example.servicoderemessauser.messaging;
+package com.example.servicoderemessauser.dto;
 
 import lombok.Data;
 
