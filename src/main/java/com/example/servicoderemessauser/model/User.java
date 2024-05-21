@@ -22,9 +22,16 @@ public class User implements Serializable {
     private UUID id;
 
     private String fullName;
+
+    @Column(unique = true)
     private String email;
+
     private String password;
+
+    @Column(unique = true)
     private String cpf; //Para PF
+
+    @Column(unique = true)
     private String cnpj; //Para PJ
 
     @Enumerated(EnumType.STRING)

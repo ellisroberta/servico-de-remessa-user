@@ -15,11 +15,17 @@ import org.springframework.amqp.core.Queue;
 @ConfigurationProperties
 @Configuration
 public class RabbitConfig {
-    static final String USER_QUEUE_NAME = "userQueue";
+    public static final String USER_QUEUE_NAME = "userQueue";
+    public static final String TRANSACTION_QUEUE = "transactionQueue";
 
     @Bean
     public Queue userQueue() {
         return new Queue(USER_QUEUE_NAME, false);
+    }
+
+    @Bean
+    public Queue transactionQueue() {
+        return new Queue(TRANSACTION_QUEUE, true);
     }
 
     @Bean
