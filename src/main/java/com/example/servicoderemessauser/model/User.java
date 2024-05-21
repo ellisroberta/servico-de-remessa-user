@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.UUID;
 
 @Builder
@@ -19,8 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 3709982515321769595L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;

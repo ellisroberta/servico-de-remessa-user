@@ -2,7 +2,6 @@ package com.example.servicoderemessauser.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.servicoderemessauser.service.UserService;
 import com.example.servicoderemessauser.model.User;
@@ -11,11 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/servico-de-remessa/users")
+@RequestMapping("/api/users")
 @Api(tags = "Usuários", description = "Endpoints para operações relacionadas aos usuários")
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
     @GetMapping

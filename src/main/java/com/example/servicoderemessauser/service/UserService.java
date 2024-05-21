@@ -3,7 +3,6 @@ package com.example.servicoderemessauser.service;
 import com.example.servicoderemessauser.messaging.UserEventPublisher;
 import com.example.servicoderemessauser.model.User;
 import com.example.servicoderemessauser.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,13 +15,10 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private UserEventPublisher userEventPublisher;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Bean

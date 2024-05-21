@@ -1,6 +1,5 @@
 package com.example.servicoderemessauser.messaging;
 
-import com.example.servicoderemessauser.messaging.UserEventPublisher;
 import com.example.servicoderemessauser.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
