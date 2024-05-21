@@ -23,6 +23,13 @@ public class UserController {
 
     private RabbitSender rabbitSender;
 
+    public UserController(UserService userService, RabbitSender rabbitSender) {
+        this.userService = userService;
+        this.rabbitSender = rabbitSender;
+    }
+
+    @ApiOperation(value = "Listar todos os usuários",
+            notes = "Retorna uma lista de todos os usuários registrados.")
     @GetMapping
     public List<User> getAllUsers() {
         return userService.findAll();
@@ -39,24 +46,18 @@ public class UserController {
             notes = "Cria um novo usuário com base nos dados fornecidos.")
     @PostMapping
     public User createUser(@RequestBody User user) {
-        // Validate email, CPF, and CNPJ uniqueness
-        if (userService.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
-        if (user.getCpf() != null && userService.findByCpf(user.getCpf()).isPresent()) {
-            throw new RuntimeException("CPF already exists");
-        }
-        if (user.getCnpj() != null && userService.findByCnpj(user.getCnpj()).isPresent()) {
-            throw new RuntimeException("CNPJ already exists");
-        }
         return userService.save(user);
     }
 
+    @ApiOperation(value = "Deletar um usuário",
+            notes = "Remove um usuário do sistema com base no ID fornecido.")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteById(id);
     }
 
+    @ApiOperation(value = "Criar uma transação",
+            notes = "Envia uma solicitação de transação para o RabbitMQ.")
     @PostMapping("/transacao")
     public ResponseEntity<String> createTransaction(@RequestBody TransactionRequest request) {
         TransactionMessage message = new TransactionMessage(request.getUserId(), request.getAmount(), request.getCurrency());
