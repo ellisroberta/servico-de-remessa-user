@@ -1,6 +1,5 @@
 package com.example.servicoderemessauser.messaging;
 
-import com.example.servicoderemessauser.config.RabbitConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +30,7 @@ public class RabbitSenderTest {
         ReflectionTestUtils.setField(rabbitSender, "exchange", "exchangeTest");
         ReflectionTestUtils.setField(rabbitSender, "transactionRoutingKey", "transactionRoutingKeyTest");
 
-        TransactionMessage message = new TransactionMessage(UUID.randomUUID(), new BigDecimal("100.00"), "USD");
+        TransactionMessage message = new TransactionMessage(UUID.randomUUID(), new BigDecimal("100.00"));
 
         rabbitSender.sendTransactionMessage(message);
 

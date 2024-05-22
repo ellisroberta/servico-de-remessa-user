@@ -59,9 +59,12 @@ Isso abrirá a interface do Swagger, onde você poderá explorar os endpoints, e
 Certifique-se de que o serviço esteja em execução para acessar a documentação do Swagger.
 
 ## Funcionalidades Principais
-Cadastro de novos usuários com informações básicas.
-Autenticação e gestão de sessões de usuários.
-Gerenciamento de perfis de usuário e informações adicionais.
+- Cadastro de novos usuários com informações básicas.
+- Atualização de dados de usuários existentes.
+- Autenticação e gestão de sessões de usuários.
+- Gerenciamento de perfis de usuário e informações adicionais.
+- Consulta de informações de usuários.
+- Exclusão de usuários.
 
 ## Exemplos de Uso (Curl)
 Aqui estão alguns exemplos de como usar as funcionalidades do User Management Service com curl:

@@ -11,6 +11,5 @@ import java.util.UUID;
 public class TransactionMessage {
 
     private UUID userId;
-    private BigDecimal amount;
-    private String currency;
+    private BigDecimal amountBrl;
 }
