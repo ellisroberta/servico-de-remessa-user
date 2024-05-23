@@ -43,12 +43,8 @@ public class UserService {
         return Optional.ofNullable(userRepository.findByEmail(email));
     }
 
-    public Optional<User> findByCpf(String cpf) {
-        return Optional.ofNullable(userRepository.findByCpf(cpf));
-    }
-
-    public Optional<User> findByCnpj(String cnpj) {
-        return Optional.ofNullable(userRepository.findByCnpj(cnpj));
+    public Optional<User> findByDocument(String document) {
+        return Optional.ofNullable(userRepository.findByDocument(document));
     }
 
     public User getUserById(UUID userId) {
@@ -72,16 +68,17 @@ public class UserService {
 
         return userRepository.save(existingUser);
     }
-
-    private void validateNewUser(User newUser) {
+    public void validateNewUser(User newUser) {
         if (findByEmail(newUser.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
-        if (newUser.getCpf() != null && findByCpf(newUser.getCpf()).isPresent()) {
-            throw new IllegalArgumentException("CPF already registered");
+        if (newUser.getDocument() != null && findByDocument(newUser.getDocument()).isPresent()) {
+            throw new IllegalArgumentException("Document already registered");
         }
-        if (newUser.getCnpj() != null && findByCnpj(newUser.getCnpj()).isPresent()) {
-            throw new IllegalArgumentException("CNPJ already registered");
-        }
+    }
+
+    public User consultUserById(UUID id){
+        return userRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("User with this ID does not exist"));
     }
 }

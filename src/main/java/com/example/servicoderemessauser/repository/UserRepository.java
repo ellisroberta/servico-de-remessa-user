@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
     User findByEmail(String email);
-    User findByCpf(String cpf);
-    User findByCnpj(String cnpj);
+
+    User findByDocument (String document);
 }

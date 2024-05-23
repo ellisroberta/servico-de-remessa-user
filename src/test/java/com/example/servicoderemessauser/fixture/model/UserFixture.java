@@ -25,8 +25,7 @@ public class UserFixture implements TemplateLoader {
                 add("fullName", RandomStringUtils.randomAlphabetic(10));
                 add("email", RandomStringUtils.randomAlphabetic(5) + "@example.com");
                 add("password", RandomStringUtils.randomAlphanumeric(10));
-                add("cpf", RandomStringUtils.randomNumeric(11));
-                add("cnpj", RandomStringUtils.randomNumeric(14));
+                add("document", RandomStringUtils.randomNumeric(11)); // ou RandomStringUtils.randomNumeric(14)
                 add("userType", UserTypeEnum.PF); // ou UserTypeEnum.PJ
             }
         });
