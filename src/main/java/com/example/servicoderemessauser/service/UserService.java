@@ -54,10 +54,10 @@ public class UserService {
 
     public User createUser(User user) {
         validateNewUser(user);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userEventPublisher.publishUserCreatedEvent(user);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        userEventPublisher.publishUserCreatedEvent(savedUser);
+        return savedUser;
     }
 
     public User updateUser(UUID userId, User updatedUser) {
@@ -65,9 +65,11 @@ public class UserService {
         existingUser.setFullName(updatedUser.getFullName());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-
-        return userRepository.save(existingUser);
+        User savedUser = userRepository.save(existingUser);
+        userEventPublisher.publishUserUpdatedEvent(savedUser);
+        return savedUser;
     }
+
     public void validateNewUser(User newUser) {
         if (findByEmail(newUser.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
@@ -77,7 +79,7 @@ public class UserService {
         }
     }
 
-    public User consultUserById(UUID id){
+    public User consultUserById(UUID id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with this ID does not exist"));
     }

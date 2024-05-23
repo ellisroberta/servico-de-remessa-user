@@ -19,7 +19,6 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-
     private final RabbitSender rabbitSender;
 
     public UserController(UserService userService, RabbitSender rabbitSender) {
@@ -48,13 +47,6 @@ public class UserController {
         return userService.save(user);
     }
 
-    @ApiOperation(value = "Deletar um usuário",
-            notes = "Remove um usuário do sistema com base no ID fornecido.")
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable UUID id) {
-        userService.deleteById(id);
-    }
-
     @ApiOperation(value = "Criar uma transação",
             notes = "Envia uma solicitação de transação para o RabbitMQ.")
     @PostMapping("/transacao")
@@ -62,5 +54,11 @@ public class UserController {
         TransactionMessage message = new TransactionMessage(request.getUserId(), request.getAmountBrl());
         rabbitSender.sendTransactionMessage(message);
         return ResponseEntity.ok("Transaction request sent.");
+    }
+    @ApiOperation(value = "Deletar um usuário",
+            notes = "Remove um usuário do sistema com base no ID fornecido.")
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable UUID id) {
+        userService.deleteById(id);
     }
 }

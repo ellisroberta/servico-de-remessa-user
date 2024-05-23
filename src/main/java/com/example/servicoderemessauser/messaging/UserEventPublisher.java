@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 public class UserEventPublisher {
 
     private final RabbitTemplate rabbitTemplate;
+    private final String exchange;
+    private final String userCreatedRoutingKey;
+    private final String userUpdatedRoutingKey;
 
-    @Value("${rabbitmq.exchange}")
-    private String exchange;
-
-    @Value("${rabbitmq.routingkey.userCreated}")
-    private String userCreatedRoutingKey;
-
-    @Value("${rabbitmq.routingkey.userUpdated}")
-    private String userUpdatedRoutingKey;
-
-    public UserEventPublisher(RabbitTemplate rabbitTemplate) {
+    public UserEventPublisher(RabbitTemplate rabbitTemplate,
+                              @Value("${rabbitmq.exchange}") String exchange,
+                              @Value("${rabbitmq.routingkey.userCreated}") String userCreatedRoutingKey,
+                              @Value("${rabbitmq.routingkey.userUpdated}") String userUpdatedRoutingKey) {
         this.rabbitTemplate = rabbitTemplate;
+        this.exchange = exchange;
+        this.userCreatedRoutingKey = userCreatedRoutingKey;
+        this.userUpdatedRoutingKey = userUpdatedRoutingKey;
     }
 
     public void publishUserCreatedEvent(User user) {
@@ -31,4 +31,3 @@ public class UserEventPublisher {
         rabbitTemplate.convertAndSend(exchange, userUpdatedRoutingKey, user);
     }
 }
-
