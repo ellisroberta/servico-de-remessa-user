@@ -36,4 +36,7 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private UserTypeEnum userType;
+
+    @Column(name = "wallet_id")
+    private UUID walletId;
 }

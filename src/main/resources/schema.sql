@@ -1,4 +1,3 @@
--- Define o esquema para a tabela de usuários
 CREATE TABLE tb_user (
     id UUID PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
@@ -7,6 +6,5 @@ CREATE TABLE tb_user (
     cpf VARCHAR(11) UNIQUE,
     cnpj VARCHAR(14) UNIQUE,
     user_type VARCHAR(2) NOT NULL,
-    wallet_id UUID,
-    CONSTRAINT FK_wallet FOREIGN KEY (wallet_id) REFERENCES wallet(id)
+    wallet_id UUID
 );
