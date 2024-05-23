@@ -1,3 +1,4 @@
+-- Define o esquema para a tabela de usuários
 CREATE TABLE tb_user (
     id UUID PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
