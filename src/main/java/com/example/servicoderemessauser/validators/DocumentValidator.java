@@ -24,12 +24,10 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
 
         int[] numbers = new int[11];
 
-        // Converte o CPF para um array de inteiros
         for (int i = 0; i < 11; i++) {
             numbers[i] = Character.getNumericValue(cpf.charAt(i));
         }
 
-        // Verifica o primeiro dígito verificador
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             sum += numbers[i] * (10 - i);
@@ -39,7 +37,6 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
             firstVerifierDigit = 0;
         }
 
-        // Verifica o segundo dígito verificador
         sum = 0;
         for (int i = 0; i < 10; i++) {
             sum += numbers[i] * (11 - i);
@@ -49,7 +46,6 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
             secondVerifierDigit = 0;
         }
 
-        // Verifica se os dígitos verificadores são iguais aos do CPF
         return firstVerifierDigit == numbers[9] && secondVerifierDigit == numbers[10];
     }
 
@@ -62,12 +58,10 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
 
         int[] numbers = new int[14];
 
-        // Converte o CNPJ para um array de inteiros
         for (int i = 0; i < 14; i++) {
             numbers[i] = Character.getNumericValue(cnpj.charAt(i));
         }
 
-        // Verifica o primeiro dígito verificador
         int sum = 0;
         for (int i = 0; i < 12; i++) {
             sum += numbers[i] * weights[i+1];
@@ -77,7 +71,6 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
             firstVerifierDigit = 0;
         }
 
-        // Verifica o segundo dígito verificador
         sum = 0;
         for (int i = 0; i < 13; i++) {
             sum += numbers[i] * weights[i];
@@ -87,8 +80,6 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
             secondVerifierDigit = 0;
         }
 
-        // Verifica se os dígitos verificadores são iguais aos do CNPJ
         return firstVerifierDigit == numbers[12] && secondVerifierDigit == numbers[13];
     }
 }
-
