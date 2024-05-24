@@ -9,4 +9,5 @@ CREATE TABLE tb_user (
     document VARCHAR(14) UNIQUE NOT NULL,
     user_type VARCHAR(2) NOT NULL,
     wallet_id UUID
+    FOREIGN KEY (wallet_id) REFERENCES tb_wallet(id)
 );
