@@ -22,30 +22,35 @@ Para executar o User Management Service, verifique se você possui os seguintes 
 
 Certifique-se de que o Java 17 e o Maven estejam configurados corretamente em seu ambiente.
 
-Antes de construir a imagem Docker do User Management Service, é necessário executar o Maven para compilar o projeto. Navegue até a raiz do projeto e execute o seguinte comando:
+## Compilação e Execução
+
+### 1. Compilar o Projeto:
+Navegue até a raiz do projeto e execute o seguinte comando para compilar o projeto utilizando Maven:
 
 ```bash
 Copiar código
 mvn clean package
 ```
 
-Antes de iniciar o ambiente com o docker-compose, é necessário construir a imagem Docker do User Management Service executando o seguinte comando na raiz do projeto:
+### 2. Construir Imagem Docker:
+Antes de iniciar o ambiente com docker-compose, construa a imagem Docker do Wallet Management Service:
 
 ```bash
 Copiar código
-docker build -t user-management .
+docker build -t wallet-management .
 ```
 
 Observação: Certifique-se de ter construído as imagens das dependências antes de executar o docker-compose, como o Authentication Service e o Profile Service.
-[Wallet Management Service] (https://github.com/ellisroberta/servico-de-remessa-wallet)
+
+### 3. Executar com Docker Compose:
+Inicie o ambiente utilizando docker-compose, garantindo que o comando seja executado no diretório principal do projeto:
 
 ```bash
 Copiar código
 docker-compose up -d
 ```
 
-Observação: Certifique-se de estar executando o comando docker-compose no diretório principal do servico-de-remessa-user. 
-Isso garantirá que o Docker Compose encontre e utilize o arquivo correto para iniciar todos os serviços necessários.
+Isso garantirá que todos os serviços necessários sejam iniciados corretamente.
 
 ## Documentação do Swagger
 O User Management Service possui uma documentação do Swagger que descreve os endpoints disponíveis e fornece informações detalhadas sobre como consumir a API.
@@ -59,12 +64,11 @@ Isso abrirá a interface do Swagger, onde você poderá explorar os endpoints, e
 Certifique-se de que o serviço esteja em execução para acessar a documentação do Swagger.
 
 ## Funcionalidades Principais
-- Cadastro de novos usuários com informações básicas.
-- Atualização de dados de usuários existentes.
-- Autenticação e gestão de sessões de usuários.
-- Gerenciamento de perfis de usuário e informações adicionais.
-- Consulta de informações de usuários.
-- Exclusão de usuários.
+- Listar todos os usuários registrados.
+- Obter informações detalhadas de um usuário baseado no ID.
+- Registrar um novo usuário com base nos dados fornecidos.
+- Criar uma solicitação de transação via RabbitMQ.
+- Remover um usuário do sistema com base no ID fornecido.
 
 ## Exemplos de Uso (Curl)
 Aqui estão alguns exemplos de como usar as funcionalidades do User Management Service com curl:
@@ -87,5 +91,19 @@ curl -X GET "http://localhost/user/api/users/{userID}" -H "accept: */*"
 
 ```bash
 Copiar código
-curl -X PUT "http://localhost/user/api/users/{userID}" -H "accept: */*" -H "Content-Type: a
+curl -X PUT "http://localhost/user/api/users/{userId}" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"fullName\": \"Novo Nome\", \"email\": \"novoemail@exemplo.com\", \"password\": \"novaSenha123\", \"cpf\": \"01234567890\"}"
+```
+
+- Criar uma transação:
+
+```bash
+Copiar código
+curl -X POST "http://localhost/user/api/users/transacao" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"userId\": \"{userId}\", \"amountBrl\": 100.0 }"
+```
+
+- Deletar um usuário:
+
+```bash
+Copiar código
+curl -X DELETE "http://localhost/user/api/users/{userId}" -H "accept: */*"
 ```
