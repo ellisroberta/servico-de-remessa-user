@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
-public class TransactionRequest {
+public class TransactionRequestDTO {
 
     private UUID userId;
     private BigDecimal amountBrl;
