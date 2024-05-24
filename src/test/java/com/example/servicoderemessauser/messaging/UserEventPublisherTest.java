@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,5 +52,17 @@ class UserEventPublisherTest {
         userEventPublisher.publishUserUpdatedEvent(user);
 
         verify(rabbitTemplate).convertAndSend("testExchange", "test.user.updated", user);
+    }
+
+    @Test
+    @DisplayName("Teste de envio de mensagem para fila")
+    void testSendMessageToQueue() {
+        String exchange = "exchange-name";
+        String routingKey = "routing-key";
+        String message = "Exemplo de mensagem para enviar";
+
+        rabbitTemplate.convertAndSend(exchange, routingKey, message);
+
+        verify(rabbitTemplate, times(1)).convertAndSend(exchange, routingKey, message);
     }
 }
