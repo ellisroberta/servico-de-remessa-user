@@ -9,6 +9,7 @@ public class DocumentValidator implements ConstraintValidator<Document, String> 
 
     @Override
     public void initialize(Document constraintAnnotation) {
+        throw new UnsupportedOperationException("A inicialização não é suportada para esta anotação.");
     }
 
     @Override

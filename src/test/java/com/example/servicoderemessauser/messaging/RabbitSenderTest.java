@@ -15,7 +15,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class RabbitSenderTest {
+class RabbitSenderTest {
 
     @Mock
     private RabbitTemplate rabbitTemplate;
@@ -25,7 +25,7 @@ public class RabbitSenderTest {
 
     @Test
     @DisplayName("Deve enviar mensagem de transação para a fila")
-    public void testSendTransactionMessage() {
+    void testSendTransactionMessage() {
 
         ReflectionTestUtils.setField(rabbitSender, "exchange", "exchangeTest");
         ReflectionTestUtils.setField(rabbitSender, "transactionRoutingKey", "transactionRoutingKeyTest");

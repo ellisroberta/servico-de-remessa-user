@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -58,7 +58,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve criar um usuário com sucesso")
-    public void testCreateUser_Success() {
+    void testCreateUser_Success() {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(passwordEncoder.encode(Mockito.anyString())).thenReturn("encodedPassword");
 
@@ -76,7 +76,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve encontrar um usuário pelo ID com sucesso")
-    public void testFindUserById_Success() {
+    void testFindUserById_Success() {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         Optional<User> foundUser = Optional.ofNullable(userService.getUserById(userId));
@@ -88,7 +88,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção quando não encontrar usuário pelo ID")
-    public void testFindUserById_UserNotFound() {
+    void testFindUserById_UserNotFound() {
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         UUID nonExistingUserId = UUID.randomUUID();
@@ -102,7 +102,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve atualizar um usuário com sucesso")
-    public void testUpdateUser_Success() {
+    void testUpdateUser_Success() {
         User updatedUser = new User();
         updatedUser.setFullName("Jane Doe");
         updatedUser.setEmail("test@test.com");
@@ -121,7 +121,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção quando tentar atualizar usuário não encontrado")
-    public void testUpdateUser_UserNotFound() {
+    void testUpdateUser_UserNotFound() {
         User updatedUser = new User();
         updatedUser.setFullName("Jane Doe");
         updatedUser.setEmail("test@test.com");
@@ -138,7 +138,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve validar novo usuário e lançar exceção se o email já existir")
-    public void validateNewUser_EmailAlreadyExists_ThrowsException() {
+    void validateNewUser_EmailAlreadyExists_ThrowsException() {
         User newUser = new User();
         newUser.setEmail("test@test.com");
         newUser.setDocument("12345678901");
@@ -150,7 +150,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve validar novo usuário e lançar exceção se o documento já existir")
-    public void validateNewUser_DocumentAlreadyExists_ThrowsException() {
+    void validateNewUser_DocumentAlreadyExists_ThrowsException() {
         User newUser = new User();
         newUser.setEmail("test@test.com");
         newUser.setDocument("12345678901");
@@ -162,7 +162,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve consultar usuário pelo ID e retornar usuário se ele existir")
-    public void consultUserById_UserExists_ReturnsUser() {
+    void consultUserById_UserExists_ReturnsUser() {
         User user = new User();
         user.setId(userId);
         user.setEmail("test@test.com");
@@ -177,7 +177,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção ao consultar usuário pelo ID se ele não existir")
-    public void consultUserById_UserDoesNotExist_ThrowsException() {
+    void consultUserById_UserDoesNotExist_ThrowsException() {
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(IllegalArgumentException.class, () -> userService.consultUserById(userId));

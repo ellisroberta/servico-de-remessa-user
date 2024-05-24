@@ -14,7 +14,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class UserEventPublisherTest {
+class UserEventPublisherTest {
 
     @Mock
     private RabbitTemplate rabbitTemplate;
@@ -31,7 +31,7 @@ public class UserEventPublisherTest {
 
     @Test
     @DisplayName("Deve publicar evento de criação de usuário")
-    public void testPublishUserCreatedEvent() {
+    void testPublishUserCreatedEvent() {
         User user = new User();
         user.setFullName("username");
         user.setEmail("user@example.com");
@@ -43,7 +43,7 @@ public class UserEventPublisherTest {
 
     @Test
     @DisplayName("Deve publicar evento de atualização de usuário")
-    public void testPublishUserUpdatedEvent() {
+    void testPublishUserUpdatedEvent() {
         User user = new User();
         user.setFullName("username");
         user.setEmail("user@example.com");
